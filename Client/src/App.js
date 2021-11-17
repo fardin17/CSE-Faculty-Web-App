@@ -23,6 +23,7 @@ import Student from './pages/Student';
 import TeacherProfile from './pages/TeacherProfile';
 import StudentProfile from './pages/StudentProfile';
 import ResultUpload from './components/ResultUpload';
+import { SignUpForm } from './components/RegisterForm';
 
 function App() {
 	return (
@@ -55,6 +56,7 @@ function App() {
 				<Route exact path="/teacher-profile" component={TeacherProfile} />
 				<Route exact path="/teacher" component={Teacher} />
 				<Route exact path="/result" component={ResultUpload} />
+				<Route exact path="/signup" component={SignUpForm} />
 				<Route exact path="/login" component={LoginPage} />
 				<Route exact path="/" component={Home} />
 			</Switch>

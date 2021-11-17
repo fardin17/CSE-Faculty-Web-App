@@ -1,11 +1,16 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { TabButton } from './Layout/Profile';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-
-const LoginForm = ({ name }) => {
-	const history = useHistory();
+import { postSignUp } from '../redux/action/User';
+const RegisterForm = ({ name }) => {
+	const dispatch = useDispatch();
 	const url = 'http://localhost:5000';
+	const history = useHistory();
 	const [user, setUser] = useState({
+		type: name,
+		name: '',
 		email: '',
 		password: '',
 	});
@@ -16,12 +21,14 @@ const LoginForm = ({ name }) => {
 	};
 	const submitHander = e => {
 		e.preventDefault();
-		axios.post(`${url}/user/login`, user).then(res => {
+		axios.post(`${url}/user/signup`, user).then(res => {
 			alert(res.data.message);
-			if (res.data.user) history.push('/');
+			if (res.status === 201) history.push('/');
 		});
+		dispatch(postSignUp(user));
 		console.log(user);
 	};
+
 	return (
 		<div class="flex justify-center min-h-screen bg-gray-100">
 			<div class="px-8 py-6 mt-4 text-left bg-white shadow-lg">
@@ -43,11 +50,25 @@ const LoginForm = ({ name }) => {
 						/>
 					</svg>
 				</div>
-				<h3 class="text-2xl font-bold text-center">
-					{name} Login to your account
-				</h3>
+				<h3 class="text-2xl font-bold text-center">{name} SignUp Form</h3>
 				<form action="">
 					<div class="mt-4">
+						<div>
+							<label class="block" for="username">
+								Username
+							</label>
+							<input
+								type="text"
+								name="name"
+								placeholder="Username"
+								value={user.name}
+								onChange={handleChangeInput}
+								class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+							/>
+							<span class="text-xs tracking-wide text-red-600">
+								Email field is required{' '}
+							</span>
+						</div>
 						<div>
 							<label class="block" for="email">
 								Email
@@ -80,17 +101,14 @@ const LoginForm = ({ name }) => {
 								onClick={submitHander}
 								class="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900"
 							>
-								Login
+								SignUp
 							</button>
-							<Link to="#" class="text-sm text-blue-600 hover:underline">
-								Forgot password?
-							</Link>
 						</div>
 						<div className="mt-4">
 							<p>OR</p>
-							<Link to="/signup">
+							<Link to="/login">
 								<button class="px-6 py-2 mt-4 text-white bg-green-600 rounded-lg hover:bg-blue-900">
-									SignUp
+									Login
 								</button>
 							</Link>
 						</div>
@@ -100,12 +118,24 @@ const LoginForm = ({ name }) => {
 		</div>
 	);
 };
-export const StudentLogin = () => {
-	return <LoginForm name="Student" />;
+const StudentSignUp = () => {
+	return <RegisterForm name="Student" />;
 };
-export const TeacherLogin = () => {
-	return <LoginForm name="Teacher" />;
+const TeacherSignUp = () => {
+	return <RegisterForm name="Teacher" />;
 };
-export const AdminLogin = () => {
-	return <LoginForm name="Admin" />;
+export const SignUpForm = () => {
+	const [active, setActive] = useState('student');
+	return (
+		<div className=" w-screen flex flex-col justify-center items-center">
+			<div>
+				<TabButton name="Student SignUp" onclick={e => setActive('student')} />
+				<TabButton name="Teacher SignUp" onclick={e => setActive('teacher')} />
+			</div>
+			<div>
+				{active === 'student' && <StudentSignUp />}
+				{active === 'teacher' && <TeacherSignUp />}
+			</div>
+		</div>
+	);
 };

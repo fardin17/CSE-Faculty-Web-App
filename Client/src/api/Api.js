@@ -5,6 +5,13 @@ const url = 'http://localhost:5000';
 export const fetchResult = () => axios.get(`${url}/result`);
 export const createResult = newResult => axios.post(`${url}/result`, newResult);
 
+export const postSignup = info => axios.post(`${url}/user/signup`, info);
+export const postLogin = (info, setLoginUser) =>
+	axios.post(`${url}/user/login`, info).then(res => {
+		alert(res.data.message);
+		setLoginUser(res.data.user);
+	});
+
 export const fetchResultInfo = () => axios.get(`${url}/teacher/result`);
 export const createResultInfo = info =>
 	axios.post(`${url}/teacher/result`, info);

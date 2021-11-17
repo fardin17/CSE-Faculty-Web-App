@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import results from './ResultReducer';
+import { Login, SignUp } from './User';
 import {
 	TeacherBasic,
 	TeacherAward,
@@ -19,6 +20,8 @@ import {
 } from './Student';
 const rootReducer = combineReducers({
 	results,
+	SignUp,
+	Login,
 	ResultInfo,
 	TeacherBasic,
 	TeacherAward,

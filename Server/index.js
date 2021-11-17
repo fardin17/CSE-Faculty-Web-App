@@ -5,6 +5,7 @@ import resultRoutes from './routes/Results.js';
 import fileRoutes from './routes/fileUpload.js';
 import TeacherRoutes from './routes/Teacher.js';
 import StudentRoutes from './routes/Student.js';
+import UserRoutes from './routes/User.js';
 import mongoose from 'mongoose';
 
 const app = express();
@@ -23,6 +24,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/result', resultRoutes);
 app.use('/teacher', TeacherRoutes);
 app.use('/student', StudentRoutes);
+app.use('/user', UserRoutes);
 app.use('/api', fileRoutes);
 
 mongoose
