@@ -1,15 +1,17 @@
 import axios from 'axios';
+//import * as Types from '../redux/types/Type';
 import { useState } from 'react';
 import { TabButton } from './Layout/Profile';
-import { useDispatch } from 'react-redux';
+//import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { postSignUp } from '../redux/action/User';
 const RegisterForm = ({ name }) => {
-	const dispatch = useDispatch();
+	//const dispatch = useDispatch();
 	const url = 'http://localhost:5000';
 	const history = useHistory();
 	const [user, setUser] = useState({
 		type: name,
+		id: '',
+		serial: '',
 		name: '',
 		email: '',
 		password: '',
@@ -23,10 +25,14 @@ const RegisterForm = ({ name }) => {
 		e.preventDefault();
 		axios.post(`${url}/user/signup`, user).then(res => {
 			alert(res.data.message);
-			if (res.status === 201) history.push('/');
+			if (res.status === 201 && res.data.user.type === 'Student')
+				history.push('/student-profile');
+			else if (res.status === 201 && res.data.user.type === 'Teacher')
+				history.push('/teacher-profile');
+			localStorage.setItem('type', JSON.stringify(res.data.user.type));
+			localStorage.setItem('id', JSON.stringify(res.data.user.id));
+			console.log(res.data.user);
 		});
-		dispatch(postSignUp(user));
-		console.log(user);
 	};
 
 	return (
@@ -66,9 +72,28 @@ const RegisterForm = ({ name }) => {
 								class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
 							/>
 							<span class="text-xs tracking-wide text-red-600">
-								Email field is required{' '}
+								Username field is required{' '}
 							</span>
 						</div>
+						{name === 'Student' && (
+							<div>
+								<label class="block" for="id">
+									Student Id
+								</label>
+								<input
+									type="text"
+									name="id"
+									placeholder="Student Id"
+									value={user.id}
+									onChange={handleChangeInput}
+									class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+								/>
+								<span class="text-xs tracking-wide text-red-600">
+									Email field is required{' '}
+								</span>
+							</div>
+						)}
+
 						<div>
 							<label class="block" for="email">
 								Email

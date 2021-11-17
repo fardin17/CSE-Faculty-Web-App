@@ -1,8 +1,11 @@
 import axios from 'axios';
+import * as Types from '../redux/types/Type';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
 const LoginForm = ({ name }) => {
+	const dispatch = useDispatch();
 	const history = useHistory();
 	const url = 'http://localhost:5000';
 	const [user, setUser] = useState({
@@ -18,7 +21,10 @@ const LoginForm = ({ name }) => {
 		e.preventDefault();
 		axios.post(`${url}/user/login`, user).then(res => {
 			alert(res.data.message);
-			if (res.data.user) history.push('/');
+			if (res.data.user.type === 'Student') history.push('/student-profile');
+			else if (res.data.user.type === 'Teacher')
+				history.push('/teacher-profile');
+			dispatch({ type: Types.ADD_USER_INFO, payload: res.data.user });
 		});
 		console.log(user);
 	};

@@ -1,18 +1,10 @@
 import * as Types from '../types/Type';
 
-export const SignUp = (info = [], action) => {
+export const User = (info = [], action) => {
 	switch (action.type) {
-		case Types.ADD_SIGNUP_INFO:
-			return [...info, action.payload];
-		default:
-			break;
-	}
-	return info;
-};
-
-export const Login = (info = [], action) => {
-	switch (action.type) {
-		case Types.ADD_STUDENT_BASIC:
+		case Types.GET_USER_INFO:
+			return action.payload;
+		case Types.ADD_USER_INFO:
 			return [...info, action.payload];
 		default:
 			break;

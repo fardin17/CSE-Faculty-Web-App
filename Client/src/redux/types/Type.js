@@ -1,8 +1,8 @@
 export const GET_RESULT = 'GET_RESULT';
 export const ADD_RESULT = 'ADD_RESULT';
 
-export const ADD_SIGNUP_INFO = 'ADD_SIGNUP_INFO';
-export const ADD_LOGIN_INFO = 'ADD_LOGIN_INFO';
+export const GET_USER_INFO = 'GET_USER_INFO';
+export const ADD_USER_INFO = 'ADD_USER_INFO';
 
 export const GET_RESULT_INFO = 'GET_RESULT_INFO';
 export const ADD_RESULT_INFO = 'ADD_RESULT_INFO';
